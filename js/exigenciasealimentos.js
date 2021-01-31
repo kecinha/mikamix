@@ -3,8 +3,8 @@ const alimentos = {
   capim: {
     nome: "Capim", 
     custo:0.02, 
-    ms: 15, 
-    pb: 10, 
+    ms: 0.015, 
+    pb: 0.10, 
     fdn: 55, 
     ndt:60, 
     cnf: 25, 
@@ -15,8 +15,8 @@ const alimentos = {
   },
   capimelefante: {
     nome: "Capim Elefante", 
-    custo:0.03, 
-    ms:19.96, 
+    custo:0.70, 
+    ms:0.0717, 
     pb:8.53, 
     fdn:79.20, 
     ndt:50.35, 
@@ -155,10 +155,12 @@ function objectAlimentos(){
 const exigencias = {
   bufalobezerro: {
     nome:"Bufalo Bezerro", 
-    ims: 1.54, 
-    pb:0.17, 
+    ims: 1.77,
+    pb:0.13, 
+    nutrientes:["pb"],
     fdnf: 0.98, 
     ndt:0.85,
+    mineral:0.025,
   },
   bufaloleitepreparto: {
     nome:"Bufala em pré-parto", 
