@@ -17,7 +17,7 @@
     </div>
     <div class="cont">
         <div class="linhamix">
-            <div class="itemlabel">Energia: </div>
+            <div class="itemlabel">Energia*: </div>
             <div class="itemselect">
                 <select name="select1" id="selectEnergia">
                     <option value="0" selected>Selecionar</option>
@@ -29,12 +29,14 @@
                     <option value="farelodesoja">Farelo de Soja</option>
                     <option value="milho">Milho grão</option>
                     <option value="poupacitrica">Poupa Cítrica</option>
-                    <option value="sal">Sal</option>
                     <option value="soja">Soja</option>
                     <option value="silagemdemilho">Silagem de Milho</option>
                 </select>
             </div>
-            <div class="iteminput"><p>R$/kg</p> <input id="inputPreco1" type="number" placeholder="0,00"> </div>
+            <div class="iteminput">
+                <p>R$/kg</p> <input type="text" id="inputPreco1" name="valor" placeholder="0.00"
+                    onKeyPress="return(moeda(this,',','.',event))">
+            </div>
         </div>
 
 
@@ -51,16 +53,18 @@
                     <option value="farelodesoja">Farelo de Soja</option>
                     <option value="milho">Milho grão</option>
                     <option value="poupacitrica">Poupa Cítrica</option>
-                    <option value="sal">Sal</option>
                     <option value="soja">Soja</option>
                     <option value="silagemdemilho">Silagem de Milho</option>
                 </select>
             </div>
-            <div class="iteminput"> <p>R$/kg</p><input id="inputPreco2" type="number" placeholder="0,00"> </div>
+            <div class="iteminput">
+                <p>R$/kg</p><input type="text" id="inputPreco2" name="valor" placeholder="0.00"
+                    onKeyPress="return(moeda(this,',','.',event))">
+            </div>
         </div>
 
         <div class="linhamix">
-            <div class="itemlabel">Proteína: </div>
+            <div class="itemlabel">Proteína*: </div>
             <div class="itemselect">
                 <select name="select3" id="selectProteina1">
                     <option value="0" selected>Selecionar</option>
@@ -72,12 +76,14 @@
                     <option value="farelodesoja">Farelo de Soja</option>
                     <option value="milho">Milho grão</option>
                     <option value="poupacitrica">Poupa Cítrica</option>
-                    <option value="sal">Sal</option>
                     <option value="soja">Soja</option>
                     <option value="silagemdemilho">Silagem de Milho</option>
                 </select>
             </div>
-            <div class="iteminput"> <p>R$/kg</p><input id="inputPreco3" type="number" placeholder="0,00"></div>
+            <div class="iteminput">
+                <p>R$/kg</p><input type="text" id="inputPreco3" name="valor" placeholder="0.00"
+                    onKeyPress="return(moeda(this,',','.',event))">
+            </div>
         </div>
 
         <div class="linhamix">
@@ -93,29 +99,38 @@
                     <option value="farelodesoja">Farelo de Soja</option>
                     <option value="milho">Milho grão</option>
                     <option value="poupacitrica">Poupa Cítrica</option>
-                    <option value="sal">Sal</option>
                     <option value="soja">Soja</option>
                     <option value="silagemdemilho">Silagem de Milho</option>
                 </select>
             </div>
-            <div class="iteminput"> <p>R$/kg</p><input id="inputPreco4" type="number" placeholder="0,00"> </div>
+            <div class="iteminput">
+                <p>R$/kg</p><input type="text" id="inputPreco4" name="valor" placeholder="0.00"
+                    onKeyPress="return(moeda(this,',','.',event))">
+            </div>
         </div>
 
         <div class="linhamix">
-            <div class="itemlabelpb"> <p>% de PB:</p></div>
+            <div class="itemlabelpb">
+                <p>% de PB:</p>
+            </div>
             <div class="itempb"> <input id="inputPb" class="inputpb" type="number" placeholder="13"> </div>
             <div class="itemlabelpb itemlabelpb2"> Nº de Animais: </div>
             <div class="itempb"> <input id="inputRebanho" class="inputpb2" type="number" placeholder="1"> </div>
+            <div style="font-size: 250%;"> * Campo obrigatório</div>
         </div>
 
         <div class="linhamix">
-            <button id="botaoFormulacao" onclick="formulario()">
-                FormulAção
-            </button>
+            <a class="botaof">
+                <button id="botaoFormulacao" onclick="formulario()">
+                    FormulAção
+                </button>
+            </a>
         </div>
         <div class="rodape">
             <div class="sobre" id="botaoSobre">
-                <img class="img-sobre" src="https://i.postimg.cc/XYGcNV5R/cc.png" alt="Contato">
+                <a href="./sobre.html">
+                    <img class="img-sobre" src="https://i.postimg.cc/XYGcNV5R/cc.png" alt="Contato">
+                </a>
             </div>
 
             <div class="voltar">

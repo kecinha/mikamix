@@ -9,12 +9,13 @@ html, body {
   overflow: hidden;
   position:  relative;
   font-family: 'Gloria Hallelujah', cursive;
-  background-image:url('https://i.postimg.cc/yxKYv7DX/14.png'); 
+  background-image:url('https://i.postimg.cc/q7xQ2XcL/Mika-Mix-2.png'); 
+  /* background-image:url('https://i.postimg.cc/yxKYv7DX/14.png');  */
+  background-color: rgb(255, 255, 255);
   background-clip: border-box;
   background-repeat:round;
   background-size: 100%;
 }
-
 .home{
   font-family: 'Cabin Sketch', cursive;
   font-size: 1000%;
@@ -24,7 +25,17 @@ html, body {
 a {
   text-decoration:none;
 }
-
+.posicaoindex{
+  margin-top: -20%;
+}
+.leitao{
+  padding-top: 20%;
+}
+.codorna{
+  width: 60%;
+  margin-left: 15%;
+  padding-bottom: 20%;
+}
 .container {
   display: flex;
   justify-content: center;
@@ -42,17 +53,18 @@ table td{
   text-align: center;
   width: 50%;
 }
-.tbodymenu2{
-  margin-top: 0%;
-  width: 100%;  
-  /* border: 10px solid yellow; */
+.coluna{
+  text-align: right;
 }
 
 .img-iconshome{
   width: 75%;
   margin-left: 25%;
-}
+  
+  /* background-color: #d0dae6;
+  border-radius: 20%; */
 
+}
 .textomenu{
   font-size: 300%;
   margin-left:30%;
@@ -92,8 +104,23 @@ table td{
   margin-left:10%;  
 }
 .navegacao{
+  font-weight: bold;
   font-size: 300%; 
   margin-left: 5%;
+  font-family: 'Gloria Hallelujah', cursive;
+  margin-top: 15%;
+}
+.navegacaomenu{
+  width:fit-content;
+  padding: 1%;
+  background-color:lightblue;
+  border: 5px solid #E5E5E5;
+  border-radius: 30px 30px 30px 30px; 
+  border-bottom: 5px solid #cacaca;
+    
+  color:rgb(39, 44, 42);
+  text-shadow: 0.1em 0.1em 0.2em rgb(252, 255, 222);  
+  font-weight: bold;
 }
 .img-icons{
   width: 100%;
@@ -232,11 +259,14 @@ input {
   line-height: 2.5em;  
   font-size: 300%;
   font-weight: lighter;
-  border: 1px solid #E5E5E5;
+  border: 5px solid #E5E5E5;
   border-bottom: 2px solid #cacaca;
   border-radius: 20% 20% 20% 20%; 
   width: 100%;
   height: 100%;
+}
+.botaof{
+  width: 100%;
 }
 .cont{
   display: flex;
@@ -275,7 +305,6 @@ input {
 .iteminput p{
   margin-top: -30%;
   font-size: 200%;
-
   line-height:0mm;
 }
 .itemlabelpb {
@@ -293,12 +322,12 @@ input {
 }
 .inputpb{
   width: 90%;
-  height: 65%;
+  height: 50%;
   margin-left: 30%;
 }
 .inputpb2{
   width: 90%;
-  height: 65%;
+  height: 50%;
   margin-left: -50%;
 }
 .itempb {
@@ -307,11 +336,53 @@ input {
 }
 .rodape {
   position: fixed;
+  width: 100%;
   bottom:0.5;
   left:0;
 }
 .tableracao{
   font-size: 350%;
   padding: 5%;
-  border: 3px solid red;
-  }
+  text-align: left;
+  justify-content: left;
+  align-items: left;
+}
+.tableracao td{
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  text-align: left;
+  width: auto;
+}
+.contresultado{
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  padding: 1%;
+  padding-right: 3%;
+  margin-left: 5%;
+}
+.materia{
+  font-weight: bold;
+  font-size: 300%; 
+  margin-right: 10%;
+  font-family: 'Gloria Hallelujah', cursive;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  justify-content: right;
+  text-align: right;  
+}
+.aviso{
+  font-size: 230%;
+  margin-top: 15%
+}
+.navegacaorebanho{
+  width:fit-content;
+  padding: 1%;
+  
+  border: 5px solid #E5E5E5;
+  border-radius: 30px 30px 30px 30px; 
+  border-bottom: 5px solid #cacaca;
+    
+  color:rgb(39, 44, 42);
+  text-shadow: 0.1em 0.1em 0.2em rgb(252, 255, 222);  
+  font-weight: bold;
+}
