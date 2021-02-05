@@ -18,8 +18,12 @@
     <div class="home">
         <a href="./index.html"> MikaMix</a>
     </div>
-    <p class="navegacao"> Dieta para
-        <script> document.write(totalrebanho()); </script> animais/dia.
+    <p class="navegacao"><a href="./index.html"> Início |</a><a href="./caprino.html"> Caprino |</a> <a
+            href="./caprinoleite.html">
+            <script> document.write(quemchama()); </script> |
+        </a> <a href="./mix.html"> Mix | </a> <a href="./resultadoracao.html" class="navegacaomenu"> Dieta </a></p>
+    <p class="navegacaoresultado"> Dieta para
+        <script> document.write(totalrebanho()); </script>/dia
     </p>
     <div class="materia"> <a onclick="tabelaracao(1)" class="navegacaomenu" id="amn">MN</a> | <a
             onclick="tabelaracao(0)" id="ams">MS</a> </div>
@@ -43,7 +47,7 @@
                 </a>
             </div>
             <div class="voltar">
-                <a href="" onclick="">
+                <a href="javascript:void(0)" onClick="history.go(-1); return false;">
                     <p> Voltar </p>
                 </a>
             </div>

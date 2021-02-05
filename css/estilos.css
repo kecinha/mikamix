@@ -103,12 +103,22 @@ table td{
   margin-top: -15%;
   margin-left:10%;  
 }
-.navegacao{
+
+.navegacaoresultado{
   font-weight: bold;
   font-size: 300%; 
   margin-left: 5%;
-  font-family: 'Gloria Hallelujah', cursive;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   margin-top: 15%;
+}
+
+.navegacao{
+  font-weight: bold;
+  font-size: 225%; 
+  width: auto;
+  margin-left: 5%;
+  font-family: 'Gloria Hallelujah', cursive;
+  margin-top: 3%;
 }
 .navegacaomenu{
   width:fit-content;
@@ -281,7 +291,7 @@ input {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  margin-top: 5%;
+  margin-top: 4%;
   font-weight: bolder;
   width: 100%;
   justify-content: center;

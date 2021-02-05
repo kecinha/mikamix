@@ -107,33 +107,29 @@ function formulario() {
     if (energia1 != 0) {
       if (preco1) {
         alert("ENTROU");
-        alimentos[energia1].custo = parseFloat((preco1)/alimentos[energia1].ms); //COMO SETAR O NOVO VALOR NO OBJETO
+        alimentos[energia1].custo = parseFloat((preco1) / alimentos[energia1].ms); //COMO SETAR O NOVO VALOR NO OBJETO
       }
       alimentoCalculo.push(alimentos[energia1]);
     }
     if (energia2 != 0) {
       if (preco2) {
 
-        alimentos[energia2].custo = parseFloat((preco2)/alimentos[energia2].ms);
+        alimentos[energia2].custo = parseFloat((preco2) / alimentos[energia2].ms);
       }
       alimentoCalculo.push(alimentos[energia2]);
     }
     if (proteina1) {
       if (parseFloat(preco3) > 0) {
-        alimentos[proteina1].custo = parseFloat((preco3)/alimentos[proteina1].ms);
+        alimentos[proteina1].custo = parseFloat((preco3) / alimentos[proteina1].ms);
       }
       alimentoCalculo.push(alimentos[proteina1]);
     }
     if (proteina2 != 0) {
       if (preco4) {
-        alimentos[proteina2].custo = parseFloat((preco4)/alimentos[proteina2].ms);
+        alimentos[proteina2].custo = parseFloat((preco4) / alimentos[proteina2].ms);
       }
       alimentoCalculo.push(alimentos[proteina2]);
     }
-
-    // if (!porcentopb) {
-    //   porcentopb = 0.13;
-    // } 
     if (!numrebanho) {
       numrebanho = 1;
     }
@@ -258,7 +254,7 @@ function montaString(retorno) {
   } else {
     var resultadoaux = JSON.stringify(resultado);
     atravessaretorno(resultadoaux);
-   window.location.href = "./resultadoracao.html";
+    window.location.href = "./resultadoracao.html";
   }
 
 }
@@ -352,14 +348,6 @@ var chamada = 7;
 var key = false;
 var animais = 1;
 
-function totalrebanho() {
-  var rebanho = window.localStorage.getItem('totalanimal')
-  var totalanimal = JSON.parse(rebanho);
-  console.log(totalanimal);
-  return totalanimal;
-}
-
-
 function tabelaracao(materia) {
   if (chamada == materia) {
     rastreio = 1;
@@ -429,16 +417,27 @@ function deleta_linha_tabela(key) {
   }
 }
 
+function totalrebanho() {
+  var rebanho = window.localStorage.getItem('totalanimal')
+  var totalanimal = JSON.parse(rebanho);
+  if(totalanimal==1){
+    return (totalanimal+" animal");
+  } else{
+    return (totalanimal+" animais");
+  }  
+}
+function quemchama() {
+  var quemchamou = localStorage.getItem('tipoanimal');
+  return (exigencias[quemchamou].nome);
+}
+
 function tipoanimal(codigo) {
-  // alert(codigo);
-  // return codigo;
   localStorage.setItem('tipoanimal', codigo);
 }
 
 function atravessaretorno(solucaosolver) {
   localStorage.setItem('obj', solucaosolver);
 }
-
 
 function ingredienteretorno(ingrediente) {
   localStorage.setItem('objingrediente', ingrediente);
