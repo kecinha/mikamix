@@ -420,11 +420,11 @@ function deleta_linha_tabela(key) {
 function totalrebanho() {
   var rebanho = window.localStorage.getItem('totalanimal')
   var totalanimal = JSON.parse(rebanho);
-  if(totalanimal==1){
-    return (totalanimal+" animal");
-  } else{
-    return (totalanimal+" animais");
-  }  
+  if (totalanimal == 1) {
+    return (totalanimal + " animal");
+  } else {
+    return (totalanimal + " animais");
+  }
 }
 function quemchama() {
   var quemchamou = localStorage.getItem('tipoanimal');
@@ -445,4 +445,21 @@ function ingredienteretorno(ingrediente) {
 
 function nrebanho(nanimal) {
   localStorage.setItem('totalanimal', nanimal);
+}
+
+function combobox(elemento) {
+  const alimentosselect = document.getElementById(elemento);
+
+  for (listaalimento in alimentos) {
+    option = new Option(alimentos[listaalimento].nome, listaalimento);
+    if (elemento != "selectMineral") {
+      if ((option.value != "ureia") && (option.value != "sal")) {
+        alimentosselect.options[alimentosselect.options.length] = option;
+      }
+    } else {
+      if ((option.value == "sal") || (option.value == "ureia")) {
+        alimentosselect.options[alimentosselect.options.length] = option;
+      }
+    }
+  };
 }
