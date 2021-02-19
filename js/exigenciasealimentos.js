@@ -12,6 +12,35 @@ const alimentos = {
     oleo: 0.0153,
     ca: 0.0024,
     fosforo: 0.0008,
+    nivelpratico: {
+      bufalobezerro: "",
+      bufaloleitepreparto: "",
+      bufaloleitelactacao: "",
+      bufalocorte: "",
+
+      bovinobezerro: "",
+      bovinoleitepreparto: "",
+      bovinoleitelactacao: "",
+      bovinocorte: "",
+
+      cabrito: "",
+      cabraleitepreparto: "",
+      cabraleitelactacao: "",
+      caprinocorte: "0.3",
+
+      cordeiro: "",
+      ovelhaleitepreparto: "",
+      ovelhaleitelactacao: "",
+      ovinocorte: "",
+
+      leitao: "",
+      matrizgestacao: "",
+      matrizlactacao: "",
+      terminacao: "",
+
+      pintinho: "",
+      codorna: "",
+    },
   },
   canadeacucarbagaco: {
     nome: "Cana de Acúcar BAGAÇO",
@@ -145,7 +174,7 @@ const alimentos = {
   },
   farelodesoja: {
     nome: "Farelo de Soja",
-    custo: 1.69,
+    custo: 0.22,
     ms: 0.8864,
     pb: 0.4879,
     fdn: 0.1478,
@@ -247,14 +276,14 @@ const alimentos = {
     ca: 0.0082,
     fosforo: 0.0007,
   },
-  milho: {
-    nome: "Milho",
+  milhofuba: {
+    nome: "Milho Fubá",
     custo: 1.11,
-    ms: 0.8797,
-    pb: 0.0902,
-    fdn: 0.1306,
-    ndt: 0.8583,
-    cnf: 0.7225,
+    ms: 0.8796,
+    pb: 0.0901,
+    fdn: 0.1305,
+    ndt: 0.8611,
+    cnf: 0.7232,
     cinza: 0.0162,
     oleo: 0.0402,
     ca: 0.003,
@@ -285,6 +314,7 @@ const alimentos = {
     oleo: 0.0259,
     ca: 0.0184,
     fosforo: 0.0010,
+    nivelpratico:0,
   },
   residuodecervejaria: {
     nome: "Resíduo de Cervejaria (Cevada)",
@@ -379,7 +409,7 @@ const alimentos = {
   },
   silagemmilho: {
     nome: "Silagem de Milho",
-    custo: 0.26,
+    custo: 0.15,
     ms: 0.3117,
     pb: 0.0718,
     fdn: 0.5398,
@@ -444,7 +474,7 @@ const alimentos = {
   },
   sal: {
     nome: "Sal",
-    custo: 2.04,
+    custo: 0.03,
     ms: 0.98,
     pb: 0,
     fdn: 0,
@@ -586,17 +616,20 @@ const exigencias = {
   },
   carneirocorte: {
     nome: "Carneiro de Corte",
+    peso: 100,
     ims: 1.77,
+    exigenciaanimal: ["ims", "pb", "fdn"],
     pb: 0.1280,
-    exigenciaanimal: ["pb", "fdn"],
-    fdn: 1.15,
+    fdn: ((100 * 1.15) / 100), //1.15
     ndt: 0.94,
-    mineral: 0.025,
+    sal: 0.025,
+    ureia: 0.01, //CONSERTAAAAAAAAAAAAAAAR
     tiporestricao: {
+      ims: "=",
       pb: "=",
-      fdn: "<=",
+      fdn: "="
     },
-    tolerancia: 0.05,
+    tolerancia: 0.10,
   },
   cordeiro: {
     nome: "Cordeiro",

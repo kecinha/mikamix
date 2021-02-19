@@ -2,12 +2,15 @@ function formatamoeda(numero) {
   return numero.toFixed(2).replace(".", ",")
 }
 
-function mudacor(input1, input2) {
+function mudacor(input1, input2, input3) {
   if (input1 == 0) {
     document.getElementById('selectEnergia').style.borderColor = "#FF0F0F";
   }
   if (input2 == 0) {
     document.getElementById('selectProteina1').style.borderColor = "#FF0F0F";
+  }
+  if (input3 == 0) {
+    document.getElementById('selectMineral').style.borderColor = "#FF0F0F";
   }
 }
 
@@ -29,6 +32,7 @@ function mudacorpb() {
 function resetacor() {
   document.getElementById('selectEnergia').style.borderColor = "#E5E5E5";
   document.getElementById('selectProteina1').style.borderColor = "#E5E5E5";
+  document.getElementById('selectMineral').style.borderColor = "#E5E5E5";
 }
 
 //MOEDA
@@ -91,6 +95,9 @@ function formulario() {
   var select = document.getElementById('selectProteina2');
   var proteina2 = select.options[select.selectedIndex].value;
 
+  var select = document.getElementById('selectMineral');
+  var mineral = select.options[select.selectedIndex].value;
+
   var preco1 = inputPreco1.value;
   var preco2 = inputPreco2.value;
   var preco3 = inputPreco3.value;
@@ -98,15 +105,14 @@ function formulario() {
   var porcentopb = (inputPb.value / 100);
   var numrebanho = inputRebanho.value;
 
-  if ((energia1 == 0) || (proteina1 == 0)) {
-    mudacor(energia1, proteina1);
+  if ((energia1 == 0) || (proteina1 == 0) || (mineral == 0)) {
+    mudacor(energia1, proteina1, mineral);
   } else {
     resetacor();
     const alimentoCalculo = [];
 
     if (energia1 != 0) {
       if (preco1) {
-        alert("ENTROU");
         alimentos[energia1].custo = parseFloat((preco1) / alimentos[energia1].ms); //COMO SETAR O NOVO VALOR NO OBJETO
       }
       alimentoCalculo.push(alimentos[energia1]);
@@ -134,14 +140,15 @@ function formulario() {
       numrebanho = 1;
     }
 
-    alimentoCalculo.push(alimentos["sal"]);
-
+    alimentoCalculo.push(alimentos[mineral]);
     const retorno = {
       alimentos: alimentoCalculo,
       porcentopb,
       numrebanho,
       animal: exigencias[quemchamou]
     }
+    console.log(retorno.animal);
+    //console.log(retorno.animal[mineral]);
 
     montaString(retorno);
     var ingrediente = JSON.stringify(retorno.alimentos);
@@ -153,6 +160,7 @@ function formulario() {
 
 
 function montaString(retorno) {
+
   var stringParaCalculo = `Minimize \n`;
   stringParaCalculo += "obj: ";
   let interacao = 0;
@@ -167,34 +175,35 @@ function montaString(retorno) {
 
   let restricao = 1;
   interacao = 0;
-  stringParaCalculo += `Restricao${restricao}: `;
-  for (const alimento of retorno.alimentos) {
-    stringParaCalculo += `+1 x${interacao}  `;
-    interacao++;
-  }
-  restricao++;
-  stringParaCalculo += `= ${retorno.animal.ims}  `;
-  stringParaCalculo += '\n';
+  var cont = 0;
+
 
   for (const exigencia of retorno.animal.exigenciaanimal) { //verificar a quantidade de restrições
     interacao = 0;
     if (retorno.animal.tiporestricao[exigencia] === "=") {
-      let tolerancia = retorno.animal.tolerancia || 0.05;
+      let tolerancia = retorno.animal.tolerancia || 0.10;
       for (const [sinal, tol] of [['>=', -tolerancia], ['<=', +tolerancia]]) {
         stringParaCalculo += `Restricao${restricao}: `;
         interacao = 0;
         for (const alimento of retorno.alimentos) { //vericar as exigencias de cada animal
-          stringParaCalculo += `+${alimento[exigencia]} x${interacao}  `;
-          interacao++;
+          if (cont <= 1) {
+            stringParaCalculo += `+1 x${interacao}  `;
+            interacao++;
+          } else {
+            stringParaCalculo += `+${alimento[exigencia]} x${interacao}  `;
+            interacao++;
+          }
         }
         restricao++;
         if (retorno.porcentopb && exigencia === "pb") { //verificar se preencheu o % de PB
           stringParaCalculo += `${sinal} ${retorno.porcentopb * (1 + tol)}  `;
         } else {
           stringParaCalculo += `${sinal} ${retorno.animal[exigencia] * (1 + tol)}  `;
+
         }
         stringParaCalculo += '\n';
         // stringParaCalculo += `Restricao${restricao}: `;
+        cont++;
       }
     } else {
       stringParaCalculo += `Restricao${restricao}: `;
@@ -210,20 +219,31 @@ function montaString(retorno) {
         stringParaCalculo += `${retorno.animal.tiporestricao[exigencia]} ${retorno.animal[exigencia]}  `;
       }
       stringParaCalculo += '\n';
+      cont++;
     }
   }
-
-
   stringParaCalculo += '\n';
   stringParaCalculo += '\n';
+
 
   stringParaCalculo += `Bounds \n`;
   interacao = 0;
   for (const alim of retorno.alimentos) { // RESTRIÇOES 
     if ((retorno.alimentos.length - 1) == interacao) { //SAL É O ULTIMO ELEMENTO DO VETOR
-      stringParaCalculo += `x${interacao}=${retorno.animal.mineral}\n`;
+      stringParaCalculo += `x${interacao}=${retorno.animal.sal}\n`;
+      //console.log(retorno.animal.mineral);
     } else {
-      stringParaCalculo += `x${interacao}>=0.1\n`;
+
+      if (retorno.alimentos[interacao].nome == "Uréia") {
+        console.log(retorno.alimentos[interacao].nome);
+        stringParaCalculo += `x${interacao}>=0\n`;
+        stringParaCalculo += `x${interacao}<=${(retorno.animal.ims) * 0.01}\n`;
+
+      } else {
+        stringParaCalculo += `x${interacao}>=0.05\n`;
+      }
+
+
     }
     interacao++;
   }
@@ -453,11 +473,11 @@ function combobox(elemento) {
   for (listaalimento in alimentos) {
     option = new Option(alimentos[listaalimento].nome, listaalimento);
     if (elemento != "selectMineral") {
-      if ((option.value != "ureia") && (option.value != "sal")) {
+      if (option.value != "sal") {
         alimentosselect.options[alimentosselect.options.length] = option;
       }
     } else {
-      if ((option.value == "sal") || (option.value == "ureia")) {
+      if (option.value == "sal") {
         alimentosselect.options[alimentosselect.options.length] = option;
       }
     }
