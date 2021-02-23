@@ -150,7 +150,7 @@ function formulario() {
     console.log(retorno.animal);
     //console.log(retorno.animal[mineral]);
 
-    montaString(retorno);
+    montaString(retorno,0);
     var ingrediente = JSON.stringify(retorno.alimentos);
     ingredienteretorno(ingrediente);
     nrebanho(retorno.numrebanho);
@@ -159,7 +159,7 @@ function formulario() {
 }
 
 
-function montaString(retorno) {
+function montaString(retorno,bound) {
 
   var stringParaCalculo = `Minimize \n`;
   stringParaCalculo += "obj: ";
@@ -240,7 +240,12 @@ function montaString(retorno) {
         stringParaCalculo += `x${interacao}<=${(retorno.animal.ims) * 0.01}\n`;
 
       } else {
-        stringParaCalculo += `x${interacao}>=0.05\n`;
+        if(bound == 1){
+          stringParaCalculo += `x${interacao}>=0\n`;
+        } else{
+          stringParaCalculo += `x${interacao}>=0.05\n`;
+        }
+        
       }
     }
     interacao++;
@@ -267,8 +272,9 @@ function montaString(retorno) {
   console.log(resultado); // RESPOSTA DO SOLVER
 
   if (resultado.z == "Não existe solução viável primal. ") {
-    alert("AJUSTA A PROTEÍNA AÍ VAI");
-    mudacorpb();
+    alert("AJUSTE");
+    montaString(retorno,1);
+    //mudacorpb();
   } else {
     var resultadoaux = JSON.stringify(resultado);
     atravessaretorno(resultadoaux);

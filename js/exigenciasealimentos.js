@@ -174,7 +174,7 @@ const alimentos = {
   },
   farelodesoja: {
     nome: "Farelo de Soja",
-    custo: 0.22,
+    custo: 0.95,
     ms: 0.8864,
     pb: 0.4879,
     fdn: 0.1478,
@@ -278,7 +278,7 @@ const alimentos = {
   },
   milhofuba: {
     nome: "Milho Fubá",
-    custo: 1.11,
+    custo: 0.66,
     ms: 0.8796,
     pb: 0.0901,
     fdn: 0.1305,
@@ -409,7 +409,7 @@ const alimentos = {
   },
   silagemmilho: {
     nome: "Silagem de Milho",
-    custo: 0.25,
+    custo: 0.09,
     ms: 0.3117,
     pb: 0.0718,
     fdn: 0.5398,
@@ -474,7 +474,7 @@ const alimentos = {
   },
   sal: {
     nome: "Sal",
-    custo: 0.03,
+    custo: 1.33,
     ms: 0.98,
     pb: 0,
     fdn: 0,
@@ -487,7 +487,7 @@ const alimentos = {
   },
   ureia: {
     nome: "Uréia",
-    custo: 1.59,
+    custo: 1.00,
     ms: 0.9788,
     pb: 2.8192,
     fdn: 0,
@@ -585,45 +585,74 @@ const exigencias = {
     fdnf: 0,
     ndt: 0,
   },
+
+
+
+
+
   cabrito: {
     nome: "Cabrito",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
+    peso: 25,
+    ims: 0.80,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.17125,
+    fdn: ((25 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 0.70,
+    sal: 0.025,
+    ureia: (0.01 * 0.80), //1% da IMS
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
   },
 
   cabraleitepreparto: {
     nome: "Cabra Pré-Parto",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
+    peso: 50,
+    ims: 2.70,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.72774,
+    fdn: ((50 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 1.43,
+    sal: 0.025,
+    ureia: (0.01 * 2.70), //1% da IMS
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
   },
   cabraleitelactacao: {
     nome: "Cabra em Lactação",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
+    peso: 50,
+    ims: 1.85,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.109729,
+    fdn: ((50 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 1.23,
+    sal: 0.025,
+    ureia: (0.01 * 1.85), //1% da IMS
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
   },
+
   cabraleiteseca: {
     nome: "Cabra Seca",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
-  },
-  carneiroleite: {
-    nome: "Carneiro Leite",
-    peso: 100,
-    ims: 1.77,
+    peso: 50,
+    ims: 1.85,
     exigenciaanimal: ["ims", "pb", "fdn"],
-    pb: 0.1280,
-    fdn: ((100 * 1.15) / 100), //1.15
-    ndt: 0.94,
+    pb: 0.109729,
+    fdn: ((50 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 1.23,
     sal: 0.025,
-    ureia: 0.01, //CONSERTAAAAAAAAAAAAAAAR
+    ureia: (0.01 * 1.85), //1% da IMS
     tiporestricao: {
       ims: "=",
       pb: "=",
@@ -631,34 +660,56 @@ const exigencias = {
     },
     tolerancia: 0.15,
   },
+  bodeleite: {
+    nome: "Bode Reprodutor Leite",
+    peso: 100,
+    ims: 2.28,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.3615789,
+    fdn: ((100 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 1.21,
+    sal: 0.025,
+    ureia: (0.01 * 2.28), //1% da IMS
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
+  },
+
+
+
+
+
+
   cordeiro: {
     nome: "Cordeiro",
-    peso: 100,
-    ims: 1.77,
+    peso: 20,
+    ims: 0.61,
     exigenciaanimal: ["ims", "pb", "fdn"],
-    pb: 0.1280,
-    fdn: ((100 * 1.15) / 100), //1.15
-    ndt: 0.94,
+    pb: 0.2540,
+    fdn: ((20 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 0.48,
     sal: 0.025,
-    ureia: 0.01, //CONSERTAAAAAAAAAAAAAAAR
+    ureia: (0.01 * 0.61), //1% da IMS
     tiporestricao: {
       ims: "=",
       pb: "=",
       fdn: "="
     },
     tolerancia: 0.15,
-
   },
   ovelhaleitepreparto: {
     nome: "Ovelha Pré-Parto",
     peso: 50,
-    ims: 1.77,
+    ims: 1.75,
     exigenciaanimal: ["ims", "pb", "fdn"],
-    pb: 0.1280,
-    fdn: ((50 * 1.15) / 100), //1.15
-    ndt: 0.94,
+    pb: 0.121714,
+    fdn: ((50 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 0.93,
     sal: 0.025,
-    ureia: (0.01 * 1.77), //1% da MS
+    ureia: (0.01 * 1.75), //1% da IMS
     tiporestricao: {
       ims: "=",
       pb: "=",
@@ -669,36 +720,56 @@ const exigencias = {
   ovelhaleitelactacao: {
     nome: "Ovelha Lactação",
     peso: 50,
-    ims: 1.77,
+    ims: 1.72,
     exigenciaanimal: ["ims", "pb", "fdn"],
-    pb: 0.1280,
-    fdn: ((50 * 1.15) / 100), //1.15
-    ndt: 0.94,
+    pb: 0.11162,
+    fdn: ((50 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 0.91,
     sal: 0.025,
-    ureia: (0.01 * 1.77), //1% da MS
+    ureia: (0.01 * 1.72), //1% da IMS
     tiporestricao: {
       ims: "=",
       pb: "=",
       fdn: "="
     },
     tolerancia: 0.15,
-
-
   },
   ovelhaleiteseca: {
     nome: "Ovelha Seca",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
+    peso: 50,
+    ims: 0.91,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.7582,
+    fdn: ((50 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 0.49,
+    sal: 0.025,
+    ureia: (0.01 * 0.91), //1% da IMS
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
   },
-  ovinoleite: {
-    nome: "Ovino Reprodutor Leite",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
+  carneiroleite: {
+    nome: "Carneiro Reprodutor Leite",
+    peso: 125,
+    ims: 2.30,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.70869,
+    fdn: ((125 * 1.15) / 100), //1.15 = ingestão de FDN de forragem, pré determinado professor Rafael
+    ndt: 1.22,
+    sal: 0.025,
+    ureia: (0.01 * 2.30), //1% da IMS
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
   },
+
+
   leitao: {
     nome: "Leitão",
     ims: 0,
@@ -734,8 +805,8 @@ const exigencias = {
     fdnf: 0,
     ndt: 0,
   },
-  pintinho: {
-    nome: "Codorna Pintinho",
+  galinha: {
+    nome: "Galinha Poedeira",
     ims: 0,
     pb: 0,
     fdnf: 0,
