@@ -314,7 +314,7 @@ const alimentos = {
     oleo: 0.0259,
     ca: 0.0184,
     fosforo: 0.0010,
-    nivelpratico:0,
+    nivelpratico: 0,
   },
   residuodecervejaria: {
     nome: "Resíduo de Cervejaria (Cevada)",
@@ -409,7 +409,7 @@ const alimentos = {
   },
   silagemmilho: {
     nome: "Silagem de Milho",
-    custo: 0.15,
+    custo: 0.25,
     ms: 0.3117,
     pb: 0.0718,
     fdn: 0.5398,
@@ -614,8 +614,8 @@ const exigencias = {
     fdnf: 0,
     ndt: 0,
   },
-  carneirocorte: {
-    nome: "Carneiro de Corte",
+  carneiroleite: {
+    nome: "Carneiro Leite",
     peso: 100,
     ims: 1.77,
     exigenciaanimal: ["ims", "pb", "fdn"],
@@ -629,28 +629,61 @@ const exigencias = {
       pb: "=",
       fdn: "="
     },
-    tolerancia: 0.10,
+    tolerancia: 0.15,
   },
   cordeiro: {
     nome: "Cordeiro",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
+    peso: 100,
+    ims: 1.77,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.1280,
+    fdn: ((100 * 1.15) / 100), //1.15
+    ndt: 0.94,
+    sal: 0.025,
+    ureia: 0.01, //CONSERTAAAAAAAAAAAAAAAR
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
+
   },
   ovelhaleitepreparto: {
     nome: "Ovelha Pré-Parto",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
+    peso: 50,
+    ims: 1.77,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.1280,
+    fdn: ((50 * 1.15) / 100), //1.15
+    ndt: 0.94,
+    sal: 0.025,
+    ureia: (0.01 * 1.77), //1% da MS
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
   },
   ovelhaleitelactacao: {
     nome: "Ovelha Lactação",
-    ims: 0,
-    pb: 0,
-    fdnf: 0,
-    ndt: 0,
+    peso: 50,
+    ims: 1.77,
+    exigenciaanimal: ["ims", "pb", "fdn"],
+    pb: 0.1280,
+    fdn: ((50 * 1.15) / 100), //1.15
+    ndt: 0.94,
+    sal: 0.025,
+    ureia: (0.01 * 1.77), //1% da MS
+    tiporestricao: {
+      ims: "=",
+      pb: "=",
+      fdn: "="
+    },
+    tolerancia: 0.15,
+
+
   },
   ovelhaleiteseca: {
     nome: "Ovelha Seca",
@@ -659,8 +692,8 @@ const exigencias = {
     fdnf: 0,
     ndt: 0,
   },
-  ovinocorte: {
-    nome: "Ovino Corte",
+  ovinoleite: {
+    nome: "Ovino Reprodutor Leite",
     ims: 0,
     pb: 0,
     fdnf: 0,

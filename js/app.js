@@ -242,8 +242,6 @@ function montaString(retorno) {
       } else {
         stringParaCalculo += `x${interacao}>=0.05\n`;
       }
-
-
     }
     interacao++;
   }
