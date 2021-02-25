@@ -150,7 +150,7 @@ function formulario() {
     console.log(retorno.animal);
     //console.log(retorno.animal[mineral]);
 
-    montaString(retorno,0);
+    montaString(retorno, 0);
     var ingrediente = JSON.stringify(retorno.alimentos);
     ingredienteretorno(ingrediente);
     nrebanho(retorno.numrebanho);
@@ -158,8 +158,7 @@ function formulario() {
   }
 }
 
-
-function montaString(retorno,bound) {
+function montaString(retorno, bound) {
 
   var stringParaCalculo = `Minimize \n`;
   stringParaCalculo += "obj: ";
@@ -176,6 +175,7 @@ function montaString(retorno,bound) {
   let restricao = 1;
   interacao = 0;
   var cont = 0;
+  var b = 0;
 
 
   for (const exigencia of retorno.animal.exigenciaanimal) { //verificar a quantidade de restrições
@@ -240,12 +240,12 @@ function montaString(retorno,bound) {
         stringParaCalculo += `x${interacao}<=${(retorno.animal.ims) * 0.01}\n`;
 
       } else {
-        if(bound == 1){
+        if (bound == 1) {
           stringParaCalculo += `x${interacao}>=0\n`;
-        } else{
+        } else {
           stringParaCalculo += `x${interacao}>=0.05\n`;
         }
-        
+
       }
     }
     interacao++;
@@ -272,8 +272,12 @@ function montaString(retorno,bound) {
   console.log(resultado); // RESPOSTA DO SOLVER
 
   if (resultado.z == "Não existe solução viável primal. ") {
-    alert("AJUSTE");
-    montaString(retorno,1);
+    b++;
+    console.log(b);
+    if (b == 1) {
+      alert("trocar alguma coisa, pois o solver não encontrou solução viável");
+      montaString(retorno, b);
+    }
     //mudacorpb();
   } else {
     var resultadoaux = JSON.stringify(resultado);
