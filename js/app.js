@@ -157,7 +157,7 @@ function formulario() {
     return retorno;
   }
 }
-
+var b = 0;
 function montaString(retorno, bound) {
 
   var stringParaCalculo = `Minimize \n`;
@@ -175,9 +175,7 @@ function montaString(retorno, bound) {
   let restricao = 1;
   interacao = 0;
   var cont = 0;
-  var b = 0;
-
-
+  
   for (const exigencia of retorno.animal.exigenciaanimal) { //verificar a quantidade de restrições
     interacao = 0;
     if (retorno.animal.tiporestricao[exigencia] === "=") {
