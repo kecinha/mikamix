@@ -154,15 +154,18 @@ function formulario() {
     var ingrediente = JSON.stringify(retorno.alimentos);
     ingredienteretorno(ingrediente);
     nrebanho(retorno.numrebanho);
+
     return retorno;
   }
 }
+
+
 var b = 0;
 function montaString(retorno, bound) {
-
   var stringParaCalculo = `Minimize \n`;
   stringParaCalculo += "obj: ";
   let interacao = 0;
+
   for (const alim of retorno.alimentos) {
     stringParaCalculo += `+${alim.custo} x${interacao}  `;
     interacao++;
@@ -175,11 +178,21 @@ function montaString(retorno, bound) {
   let restricao = 1;
   interacao = 0;
   var cont = 0;
-  
+  if (bound <= 2) {
+    tolerancia = retorno.animal.tolerancia || 0.10;
+  } else {
+    if (bound > 2 && bound < 6) {
+      tolerancia = tolerancia + 0.0166666666666666666666666666666;
+    } else { 
+      window.location.href = "./repick.html";      
+      return 0;
+    }
+  }
+  //alert(tolerancia);
   for (const exigencia of retorno.animal.exigenciaanimal) { //verificar a quantidade de restrições
     interacao = 0;
     if (retorno.animal.tiporestricao[exigencia] === "=") {
-      let tolerancia = retorno.animal.tolerancia || 0.10;
+
       for (const [sinal, tol] of [['>=', -tolerancia], ['<=', +tolerancia]]) {
         stringParaCalculo += `Restricao${restricao}: `;
         interacao = 0;
@@ -272,11 +285,7 @@ function montaString(retorno, bound) {
   if (resultado.z == "Não existe solução viável primal. ") {
     b++;
     console.log(b);
-    if (b == 1) {
-      alert("trocar alguma coisa, pois o solver não encontrou solução viável");
-      montaString(retorno, b);
-    }
-    //mudacorpb();
+    montaString(retorno, b);
   } else {
     var resultadoaux = JSON.stringify(resultado);
     atravessaretorno(resultadoaux);
@@ -398,14 +407,18 @@ function tabelaracao(materia) {
       var corpo_tabela = document.querySelector("tbody");
 
       let int = 0;
+      custo = 0;
       for (const itenstabela of retornoingrediente) {
-        //console.log(itenstabela.ms);
         this.alimento = itenstabela.nome;
-        if (materia === 1) {
+        if (materia === 1) { //MN = 1
           this.quantidademn = parseFloat(((retornoqtd.x[int] / itenstabela.ms) * totalanimal)).toFixed(3);
+          this.precoracao = itenstabela.custo * quantidademn;
+          custo = custo + precoracao;
           mudacormateria(1);
-        } else {
+        } else { //MS <> 1 
           this.quantidademn = parseFloat((retornoqtd.x[int] * totalanimal)).toFixed(3);
+          this.precoracao = itenstabela.custo / itenstabela.ms * quantidademn;
+          custo = custo + precoracao;
           mudacormateria(2);
         }
         criar_linha_tabela(corpo_tabela);
@@ -414,6 +427,7 @@ function tabelaracao(materia) {
     }
     chamada = materia;
   }
+  custodieta(custo);
   rastreio = 0;
   key = true;
 }
@@ -425,22 +439,26 @@ function criar_linha_tabela(corpo_tabela) {
 
   var texto_alimento = document.createTextNode(this.alimento);
   var texto_quantidademn = document.createTextNode(this.quantidademn);
+  console.log(texto_alimento);
+  console.log(texto_quantidademn);
 
   campo_alimento.appendChild(texto_alimento);
   campo_quantidademn.appendChild(texto_quantidademn);
   linha.appendChild(campo_alimento);
   linha.appendChild(campo_quantidademn);
   corpo_tabela.appendChild(linha);
+
 }
 
 function deleta_linha_tabela(key) {
   if (key) {
     var linhas = document.getElementById("tableracao").rows;
-    for (i = linhas.length - 1; i >= 1;) {
+    for (i = linhas.length - 2; i >= 1;) { //-2 pra não excluir a ultima linha do preço da ração
       document.getElementById("tableracao").deleteRow(i);
       i--;
     }
   }
+
 }
 
 function totalrebanho() {
@@ -452,6 +470,22 @@ function totalrebanho() {
     return (totalanimal + " animais");
   }
 }
+function nrebanho(nanimal) {
+  localStorage.setItem('totalanimal', nanimal);
+}
+
+
+function precodieta(nanimal) {
+
+  var preco = window.localStorage.getItem('valordieta');
+  var precofinal = JSON.parse(preco);
+  return parseFloat(precofinal).toFixed(2);
+}
+function custodieta(custo) {
+  localStorage.setItem('valordieta', custo);
+}
+
+
 function quemchama() {
   var quemchamou = localStorage.getItem('tipoanimal');
   return (exigencias[quemchamou].nome);
@@ -469,9 +503,6 @@ function ingredienteretorno(ingrediente) {
   localStorage.setItem('objingrediente', ingrediente);
 }
 
-function nrebanho(nanimal) {
-  localStorage.setItem('totalanimal', nanimal);
-}
 
 function combobox(elemento) {
   const alimentosselect = document.getElementById(elemento);
@@ -488,4 +519,83 @@ function combobox(elemento) {
       }
     }
   };
+}
+
+function tabelaalimentos() {
+
+  var corpo_tabela = document.querySelector("tbody");
+
+  let int = 0;
+  for (itenstabela in alimentos) {
+    this.alimento = alimentos[itenstabela].nome;
+    this.alimentoms = alimentos[itenstabela].ms;
+    this.alimentopb = alimentos[itenstabela].pb;
+    this.alimentofdn = alimentos[itenstabela].fdn;
+    this.alimentocnf = alimentos[itenstabela].cnf;
+    this.alimentocinza = alimentos[itenstabela].cinza;
+    this.alimentooleo = alimentos[itenstabela].oleo;
+    this.alimentoca = alimentos[itenstabela].ca;
+    this.alimentofosforo = alimentos[itenstabela].fosforo;
+    criar_linha_tabela_alimento(corpo_tabela);
+    int++;
+  }
+}
+
+
+function criar_linha_tabela_alimento(corpo_tabela) {
+  var linha = document.createElement("tr");
+
+  var campo_alimento = document.createElement("td");
+  var campo_atributos = document.createElement("td");
+
+  var texto_alimento = document.createTextNode(this.alimento);
+  var texto_atributos = document.createTextNode(`MS: ${this.alimentoms}; \n PB: ${this.alimentopb}; FDN: ${this.alimentofdn}; CNF: ${this.alimentocnf}; Cinza: ${this.alimentocinza}; Óleo: ${this.alimentooleo}; Cálcio: ${this.alimentoca}; Fósforo: ${this.alimentofosforo};`);
+
+  console.log(texto_alimento);
+  console.log(texto_atributos);
+
+  campo_alimento.appendChild(texto_alimento);
+  campo_atributos.appendChild(texto_atributos);
+  linha.appendChild(campo_alimento);
+  linha.appendChild(campo_atributos);
+  corpo_tabela.appendChild(linha);
+
+}
+
+function tabelaanimal() {
+
+  var corpo_tabela = document.querySelector("tbody");
+
+  let int = 0;
+  for (itenstabela in exigencias) {
+    this.animalnome = exigencias[itenstabela].nome;
+    this.animalims = exigencias[itenstabela].ims;
+    this.animalpb = exigencias[itenstabela].pb;
+    this.animalfdn = exigencias[itenstabela].fdn;
+    this.animalndt = exigencias[itenstabela].ndt;
+    this.animalmineral = exigencias[itenstabela].mineral;
+    criar_linha_tabela_animal(corpo_tabela);
+    int++;
+  }
+}
+
+
+function criar_linha_tabela_animal(corpo_tabela) {
+  var linha = document.createElement("tr");
+
+  var campo_animal = document.createElement("td");
+  var campo_atributos = document.createElement("td");
+
+  var texto_animal = document.createTextNode(this.animalnome);
+  var texto_atributos = document.createTextNode(`MS: ${this.animalims}; \n PB: ${this.animalpb}; FDN: ${this.animalfdn}; NDT: ${this.animalndt}; Mineral: ${this.animalmineral};`);
+
+  console.log(texto_animal);
+  console.log(texto_atributos);
+
+  campo_animal.appendChild(texto_animal);
+  campo_atributos.appendChild(texto_atributos);
+  linha.appendChild(campo_animal);
+  linha.appendChild(campo_atributos);
+  corpo_tabela.appendChild(linha);
+
 }

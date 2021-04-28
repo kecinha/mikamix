@@ -14,35 +14,24 @@
     <meta charset="utf-8" />
 </head>
 
-<body onload="tabelaracao(1);">
+<body onload="tabelaanimal();">
     <div class="home">
         <a href="./index.html"> NutriMika</a>
     </div>
-    <p class="navegacao"><a href="./index.html"> Início |</a><a href="./caprino.html"> Caprino |</a> <a
-            href="./caprinoleite.html">
-            <script> document.write(quemchama()); </script> |
-        </a> <a href="./mix.html"> Mix | </a> <a href="./resultadoracao.html" class="navegacaomenu"> Dieta </a></p>
-    <p class="navegacaoresultado"> Dieta para
-        <script> document.write(totalrebanho()); </script>/dia
-    </p>
-    <div class="materia"> <a onclick="tabelaracao(1)" class="navegacaomenu" id="amn">MN</a> | <a
-            onclick="tabelaracao(0)" id="ams">MS</a> </div>
+    <p class="navegacao"><a href="./index.html"> Início |</a> <a href="./animalexigencia.html"> Exigência Animal</a></p>
+
     <div class="contresultado">
         <table class="tableracao" id="tableracao">
             <thead>
                 <tr>
-                    <th>Ingrediente</th>
+                    <th>Exigências</th>
                     <th> </th>
                 </tr>
             </thead>
             <tbody class="tbody">
             </tbody>
-            <tr>
-                <th>Preço:</th>
-                <th>R$ <script> document.write(precodieta(totalrebanho())); </script> </th>
-            </tr>
         </table>
-        <div class="aviso"> * MN = Matéria Natural <br>* MS = Matéria Seca</div>
+
         <div class="rodape">
             <div class="sobre" id="botaoSobre">
                 <a href="./sobre.html">

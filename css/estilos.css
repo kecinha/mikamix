@@ -357,7 +357,7 @@ input {
   text-align: left;
   justify-content: left;
   align-items: left;
-  margin-top: -10%;
+  margin-top: -5%;
 }
 .tableracao td{
   font-family:Verdana, Geneva, Tahoma, sans-serif;
@@ -372,7 +372,9 @@ input {
   padding: 1%;
   padding-right: 3%;
   margin-left: 5%;
+  overflow-x: scroll;
 }
+
 .materia{
   font-weight: bold;
   font-size: 300%; 

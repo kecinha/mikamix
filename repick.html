@@ -1,10 +1,13 @@
 <head>
     <link rel="stylesheet" href="css/estilos.css">
     <script type="text/javascript" src="js/exigenciasealimentos.js"></script>
+    <script type="text/javascript" src="js/glpk.min.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
     <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Gloria+Hallelujah&family=Mali:wght@700&display=swap"
         rel="stylesheet">
@@ -15,23 +18,18 @@
     <div class="home">
         <a href="./index.html"> NutriMika</a>
     </div>
+    <p class="navegacao"><a href="./index.html"> Início |</a> <a href="javascript:void(0)" onClick="history.go(-1); return false;">
+            <script> document.write(quemchama());</script> |
+        </a> <a href="./mix.html"> Mix | </a> <a href="./resultadoracao.html" class="navegacaomenu"> Dieta </a></p>
+
     <p class="navegacao"><a href="./index.html"> Início | <a href="./composicao.html" class="navegacaomenu"> Composição
-                Alimentos e Exigência Animal </a>
+                Alimentos / Exigências </a>
     </p>
     <div class="cont">
         <section class="composicao">
-            <h2> Alimentos e Exigências </h2>
-            <p> A composição dos alimentos assim como as exigências nutricionais, foram estabelecidas conforme indicadas
-                na
-                literatura. Para ruminantes seguimos a Tabelas Brasileiras de Composição de Alimentos para Ruminantes,
-                disponível em:<a href="https://www.cqbal.com.br/#!/" target="_blank"> www.cqbal.com.br </a>. Para não
-                ruminantes
-                seguimos a Tabelas Brasileiras Para Aves e Suínos - Composição de Alimentos e Exigências Nutricionais,
-                4ª
-                Edição, Editor: Horacio Santiago Rostagno. <br>
-                Exigência dos animais: <a href="./animalexigencia.html">aqui</a>
-                Composição dos alimentos: <a href="./alimentos.html">aqui</a>
-            </p>
+            <h2> FALHOU!! </h2>
+            <p> Não foi possível encontrar uma combinação viável com esses ingreientes!! Nível de tolerância para
+                atender as exigência: 15%.</p>
         </section>
         <div class="rodape">
             <div class="sobre" id="botaoSobre">
