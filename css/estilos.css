@@ -260,7 +260,9 @@ select {
   height: 100%;
   font-weight: bolder;
   border: 5px solid #E5E5E5;
+  background-color: #fff;
   border-radius: 20px 20px 20px 20px;
+  
 }
 option{
   font-size: 15px;
@@ -308,6 +310,7 @@ input {
 .itemselect {
   margin: 2%;
   width: 50%;
+
 }
 .iteminput{
   margin: 2%;
@@ -400,4 +403,29 @@ input {
   color:rgb(39, 44, 42);
   text-shadow: 0.1em 0.1em 0.2em rgb(252, 255, 222);  
   font-weight: bold;
+}
+
+.nav{
+  border: 5px solid #000000;
+  font-size: 200%;
+  border-radius: 30px 30px 30px 30px; 
+  margin-top: -10%;
+  margin-bottom: 5%;
+  color:rgb(10, 10, 10);
+  text-shadow: 0.1em 0.1em 0.2em rgb(252, 255, 222);  
+  font-weight: bold;
+}
+
+.linhamixNR{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-top: 0%;
+  font-weight: bolder;
+  width: 100%;
+  justify-content: right;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 6%;
+  
 }

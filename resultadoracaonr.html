@@ -1,0 +1,59 @@
+<head>
+    <link rel="stylesheet" href="css/estilos.css">
+    <script type="text/javascript" src="js/exigenciasealimentos.js"></script>
+    <script type="text/javascript" src="js/glpk.min.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Gloria+Hallelujah&family=Mali:wght@700&display=swap"
+        rel="stylesheet">
+    <meta charset="utf-8" />
+</head>
+
+<body onload="tabelaracao(1);">
+    <div class="home">
+        <a href="./index.html"> NutriMika</a>
+    </div>
+    <p class="navegacao"><a href="./index.html"> Início |</a><a href="./caprino.html"> Caprino |</a> <a
+            href="./caprinoleite.html">
+            <script> document.write(quemchama()); </script> |
+        </a> <a href="./mix.html"> Mix | </a> <a href="./resultadoracao.html" class="navegacaomenu"> Dieta </a></p>
+    <p class="navegacaoresultado"> Dieta para
+        <script> document.write(totalrebanho()); </script>/dia
+    </p>
+    <div class="materia"> <a onclick="tabelaracao(1)" class="navegacaomenu" id="amn">MN</a> | <a
+            onclick="tabelaracao(0)" id="ams">MS</a> </div>
+    <div class="contresultado">
+        <table class="tableracao" id="tableracao">
+            <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th> </th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+            </tbody>
+            <tr>
+                <th>Preço:</th>
+                <th>R$ <script> document.write(precodieta(totalrebanho())); </script> </th>
+            </tr>
+        </table>
+        <div class="aviso"> * MN = Matéria Natural <br>* MS = Matéria Seca</div>
+        <div class="rodape">
+            <div class="sobre" id="botaoSobre">
+                <a href="./sobre.html">
+                    <img class="img-sobre" src="https://i.postimg.cc/XYGcNV5R/cc.png" alt="Contato">
+                </a>
+            </div>
+            <div class="voltar">
+                <a href="javascript:void(0)" onClick="history.go(-1); return false;">
+                    <p> Voltar </p>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>

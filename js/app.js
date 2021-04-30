@@ -2,15 +2,40 @@ function formatamoeda(numero) {
   return numero.toFixed(2).replace(".", ",")
 }
 
-function mudacor(input1, input2, input3) {
+function mudacor(input1, input2, input3, input4, input5, input6, chave) {
   if (input1 == 0) {
-    document.getElementById('selectEnergia').style.borderColor = "#FF0F0F";
+    document.getElementById('select1').style.borderColor = "#FF0F0F";
   }
   if (input2 == 0) {
-    document.getElementById('selectProteina1').style.borderColor = "#FF0F0F";
+    if (chave == "ruminante") {
+      document.getElementById('select3').style.borderColor = "#FF0F0F";
+    } else {
+      document.getElementById('select2').style.borderColor = "#FF0F0F";
+    }
   }
   if (input3 == 0) {
-    document.getElementById('selectMineral').style.borderColor = "#FF0F0F";
+    if (chave == "ruminante") {
+      document.getElementById('selectMineral').style.borderColor = "#FF0F0F";
+    }
+    document.getElementById('select3').style.borderColor = "#FF0F0F";
+    if (input4 == 0) {
+      document.getElementById('select4').style.borderColor = "#FF0F0F";
+    }
+  } else {
+    if (input4 == 0) {
+      document.getElementById('select4').style.borderColor = "#FF0F0F";
+    }
+  }
+
+
+  if (input5 == 0) {
+    if (input6 != 0) {
+      document.getElementById('select5').style.borderColor = "#FF0F0F";
+    }
+  } else {
+    if (input6 == 0) {
+      document.getElementById('select6').style.borderColor = "#FF0F0F";
+    }
   }
 }
 
@@ -30,9 +55,16 @@ function mudacorpb() {
 }
 
 function resetacor() {
-  document.getElementById('selectEnergia').style.borderColor = "#E5E5E5";
-  document.getElementById('selectProteina1').style.borderColor = "#E5E5E5";
-  document.getElementById('selectMineral').style.borderColor = "#E5E5E5";
+  document.getElementById('select1').style.borderColor = "#E5E5E5";
+  document.getElementById('select2').style.borderColor = "#E5E5E5";
+  document.getElementById('select3').style.borderColor = "#E5E5E5";
+  if (document.getElementById('selectMineral')) {
+    document.getElementById('selectMineral').style.borderColor = "#E5E5E5";
+  } else {
+    document.getElementById('select4').style.borderColor = "#E5E5E5";
+  }
+  document.getElementById('select5').style.borderColor = "#E5E5E5";
+  document.getElementById('select6').style.borderColor = "#E5E5E5";
 }
 
 //MOEDA
@@ -83,16 +115,16 @@ function formulario() {
   //console.log(alimentos['capim']);
   //return 0;
 
-  var select = document.getElementById('selectEnergia');
+  var select = document.getElementById('select1');
   var energia1 = select.options[select.selectedIndex].value;
 
-  var select = document.getElementById('selectEnergia2');
+  var select = document.getElementById('select2');
   var energia2 = select.options[select.selectedIndex].value;
 
-  var select = document.getElementById('selectProteina1');
+  var select = document.getElementById('select3');
   var proteina1 = select.options[select.selectedIndex].value;
 
-  var select = document.getElementById('selectProteina2');
+  var select = document.getElementById('select4');
   var proteina2 = select.options[select.selectedIndex].value;
 
   var select = document.getElementById('selectMineral');
@@ -106,7 +138,8 @@ function formulario() {
   var numrebanho = inputRebanho.value;
 
   if ((energia1 == 0) || (proteina1 == 0) || (mineral == 0)) {
-    mudacor(energia1, proteina1, mineral);
+    resetacor();
+    mudacor(energia1, proteina1, mineral, 1, 1, 1, "ruminante");
   } else {
     resetacor();
     const alimentoCalculo = [];
@@ -183,8 +216,8 @@ function montaString(retorno, bound) {
   } else {
     if (bound > 2 && bound < 6) {
       tolerancia = tolerancia + 0.0166666666666666666666666666666;
-    } else { 
-      window.location.href = "./repick.html";      
+    } else {
+      window.location.href = "./repick.html";
       return 0;
     }
   }
@@ -510,7 +543,7 @@ function combobox(elemento) {
   for (listaalimento in alimentos) {
     option = new Option(alimentos[listaalimento].nome, listaalimento);
     if (elemento != "selectMineral") {
-      if (option.value != "sal") {
+      if (option.value != "sal" && option.value) {
         alimentosselect.options[alimentosselect.options.length] = option;
       }
     } else {
@@ -598,4 +631,109 @@ function criar_linha_tabela_animal(corpo_tabela) {
   linha.appendChild(campo_atributos);
   corpo_tabela.appendChild(linha);
 
+}
+
+
+
+function formularionr() {
+
+  var alimento1 = 0;
+  var alimento2 = 0;
+  var alimento3 = 0;
+  var nivel1 = 0;
+  var nivel2 = 0;
+  var nivel3 = 0;
+  var quemchamou = localStorage.getItem('tipoanimal');
+
+
+  var select = document.getElementById('select1');
+  alimento1 = select.options[select.selectedIndex].value;
+
+  var select = document.getElementById('select2');
+  nivel1 = (select.options[select.selectedIndex].value / 1);
+
+  var select = document.getElementById('select3');
+  alimento2 = select.options[select.selectedIndex].value;
+
+  var select = document.getElementById('select4');
+  nivel2 = (select.options[select.selectedIndex].value / 1);
+
+  var select = document.getElementById('select5');
+  alimento3 = (select.options[select.selectedIndex].value / 1);
+
+  var select = document.getElementById('select6');
+  nivel3 = (select.options[select.selectedIndex].value / 1);
+
+
+  var preco1 = inputPreco1.value;
+  var preco2 = inputPreco2.value;
+  var perco3 = inputPreco3.value;
+
+  var porcentopb = (inputPb.value / 1);
+  var margem = (inputMargem.value / 1);
+
+  if (!porcentopb) {
+    porcentopb = 18;
+  }
+  exigencias[quemchamou].pb = porcentopb;
+  if (!margem) {
+    margem = 3;
+  }
+
+  if ((alimento1 == 0) || (nivel1 == 0) || (alimento2 == 0) || (nivel2 == 0)) {
+    resetacor();
+    mudacor(alimento1, nivel1, alimento2, nivel2, alimento3, nivel3, "naoruminante");
+  } else {
+    resetacor();
+  }
+
+  if (((alimento1 != 0) && (nivel1 != 0)) && ((alimento2 != 0) && (nivel2 != 0))) {
+    const alimentoCalculo = [];
+    if (preco1) {
+      alimentos[alimento1].custo = parseFloat((preco1) / alimentos[alimento1].ms); //COMO SETAR O NOVO VALOR NO OBJETO
+    }
+    alimentoCalculo.push(alimentos[alimento1]);
+    if (alimento2 != 0) {
+      if (preco2) {
+        alimentos[alimento2].custo = parseFloat((preco2) / alimentos[alimento2].ms);
+      }
+      alimentoCalculo.push(alimentos[alimento2]);
+    }
+
+    if (alimento3 != 0) {
+      if (preco3) {
+        alimentos[alimento3].custo = parseFloat((preco3) / alimentos[alimento3].ms);
+      }
+      alimentoCalculo.push(alimentos[alimento3]);
+    }
+
+    //alimentoCalculo.push(alimentos[mineral]);
+    const retorno = {
+      animal: exigencias[quemchamou],
+      alimentos: alimentoCalculo,
+      nivel1,
+      nivel2,
+      porcentopb,
+      margem
+    }
+    quadradodepearson(retorno);
+
+    //return retorno;
+  }
+}
+
+function quadradodepearson(objeto) {
+  ajustepbpearson = (objeto.porcentopb * 100) / (100 - objeto.margem);
+  var pbalimento1 = 0;
+  var pbalimento2 = 0;
+  pbalimento1 = objeto.alimentos[0].pb;
+  pbalimento2 = objeto.alimentos[1].pb;
+
+  pbmistura1 = pbalimento1 * objeto.nivel1;
+  pbmistura2 = pbalimento2 * objeto.nivel2;
+
+  pbmistura = pbmistura1 + pbmistura2;
+
+  console.log(objeto);
+  alert(pbmistura);
 }
