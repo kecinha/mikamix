@@ -2,7 +2,7 @@ function formatamoeda(numero) {
   return numero.toFixed(2).replace(".", ",")
 }
 
-function mudacor(input1, input2, input3, input4, input5, input6, chave) {
+function mudacor(input1, input2, input3, input4, chave) {
   if (input1 == 0) {
     document.getElementById('select1').style.borderColor = "#FF0F0F";
   }
@@ -17,24 +17,17 @@ function mudacor(input1, input2, input3, input4, input5, input6, chave) {
     if (chave == "ruminante") {
       document.getElementById('selectMineral').style.borderColor = "#FF0F0F";
     }
-    document.getElementById('select3').style.borderColor = "#FF0F0F";
-    if (input4 == 0) {
-      document.getElementById('select4').style.borderColor = "#FF0F0F";
+    if (input4 != 0) {
+      document.getElementById('select3').style.borderColor = "#FF0F0F";
     }
   } else {
     if (input4 == 0) {
       document.getElementById('select4').style.borderColor = "#FF0F0F";
     }
   }
-
-
-  if (input5 == 0) {
-    if (input6 != 0) {
-      document.getElementById('select5').style.borderColor = "#FF0F0F";
-    }
-  } else {
-    if (input6 == 0) {
-      document.getElementById('select6').style.borderColor = "#FF0F0F";
+  if (input4 == 0) {
+    if (input3 != 0) {
+      document.getElementById('select4').style.borderColor = "#FF0F0F";
     }
   }
 }
@@ -63,8 +56,6 @@ function resetacor() {
   } else {
     document.getElementById('select4').style.borderColor = "#E5E5E5";
   }
-  document.getElementById('select5').style.borderColor = "#E5E5E5";
-  document.getElementById('select6').style.borderColor = "#E5E5E5";
 }
 
 //MOEDA
@@ -139,7 +130,7 @@ function formulario() {
 
   if ((energia1 == 0) || (proteina1 == 0) || (mineral == 0)) {
     resetacor();
-    mudacor(energia1, proteina1, mineral, 1, 1, 1, "ruminante");
+    mudacor(energia1, proteina1, mineral, 1, "ruminante");
   } else {
     resetacor();
     const alimentoCalculo = [];
@@ -539,19 +530,29 @@ function ingredienteretorno(ingrediente) {
 
 function combobox(elemento) {
   const alimentosselect = document.getElementById(elemento);
-
   for (listaalimento in alimentos) {
-    option = new Option(alimentos[listaalimento].nome, listaalimento);
-    if (elemento != "selectMineral") {
-      if (option.value != "sal" && option.value) {
-        alimentosselect.options[alimentosselect.options.length] = option;
-      }
-    } else {
-      if (option.value == "sal") {
-        alimentosselect.options[alimentosselect.options.length] = option;
+    if (!alimentos[listaalimento].espaco) {
+
+
+      option = new Option(alimentos[listaalimento].nome, listaalimento);
+      if (elemento != "selectMineral") {
+        if (option.value != "sal" && option.value) {
+          if (elemento == "select3") { //PARA SELECIONAR APENAS OS ALIMENTOS ALTERNATIVOS NO 3º SELECT, OU SEJA, OS QUE POSSUEM NIVEL PRÁTICO PREENCHIDOS
+            if (alimentos[listaalimento].nivelpraticosuino != 0) {
+              alimentosselect.options[alimentosselect.options.length] = option;
+            }
+          } else {
+            alimentosselect.options[alimentosselect.options.length] = option;
+          }
+        }
+      } else {
+        if (option.value == "sal") {
+          alimentosselect.options[alimentosselect.options.length] = option;
+        }
       }
     }
   };
+
 }
 
 function tabelaalimentos() {
@@ -641,8 +642,6 @@ function formularionr() {
   var alimento2 = 0;
   var alimento3 = 0;
   var nivel1 = 0;
-  var nivel2 = 0;
-  var nivel3 = 0;
   var quemchamou = localStorage.getItem('tipoanimal');
 
 
@@ -650,44 +649,39 @@ function formularionr() {
   alimento1 = select.options[select.selectedIndex].value;
 
   var select = document.getElementById('select2');
-  nivel1 = (select.options[select.selectedIndex].value / 1);
-
-  var select = document.getElementById('select3');
   alimento2 = select.options[select.selectedIndex].value;
 
+  var select = document.getElementById('select3');
+  alimento3 = select.options[select.selectedIndex].value;
+
   var select = document.getElementById('select4');
-  nivel2 = (select.options[select.selectedIndex].value / 1);
+  nivel1 = (select.options[select.selectedIndex].value / 1);
 
-  var select = document.getElementById('select5');
-  alimento3 = (select.options[select.selectedIndex].value / 1);
-
-  var select = document.getElementById('select6');
-  nivel3 = (select.options[select.selectedIndex].value / 1);
 
 
   var preco1 = inputPreco1.value;
   var preco2 = inputPreco2.value;
-  var perco3 = inputPreco3.value;
+  var preco3 = inputPreco3.value;
 
   var porcentopb = (inputPb.value / 1);
-  var margem = (inputMargem.value / 1);
+  var espaco = (inputEspaco.value / 1);
 
   if (!porcentopb) {
     porcentopb = 18;
   }
   exigencias[quemchamou].pb = porcentopb;
-  if (!margem) {
-    margem = 3;
+  if (!espaco) {
+    espaco = 3;
   }
 
-  if ((alimento1 == 0) || (nivel1 == 0) || (alimento2 == 0) || (nivel2 == 0)) {
+  if (((alimento1 == 0) || (alimento2 == 0)) || ((alimento3 == 0) && (nivel1 != 0)) || ((alimento3 != 0) && (nivel1 == 0))) {
     resetacor();
-    mudacor(alimento1, nivel1, alimento2, nivel2, alimento3, nivel3, "naoruminante");
+    mudacor(alimento1, alimento2, alimento3, nivel1, "naoruminante");
   } else {
     resetacor();
   }
 
-  if (((alimento1 != 0) && (nivel1 != 0)) && ((alimento2 != 0) && (nivel2 != 0))) {
+  if (((alimento1 != 0) && (alimento2 != 0)) && (((alimento3 != 0) && (nivel1 != 0)) || ((alimento3 == 0) && (nivel1 == 0)))) {
     const alimentoCalculo = [];
     if (preco1) {
       alimentos[alimento1].custo = parseFloat((preco1) / alimentos[alimento1].ms); //COMO SETAR O NOVO VALOR NO OBJETO
@@ -712,9 +706,8 @@ function formularionr() {
       animal: exigencias[quemchamou],
       alimentos: alimentoCalculo,
       nivel1,
-      nivel2,
       porcentopb,
-      margem
+      espaco
     }
     quadradodepearson(retorno);
 
@@ -723,17 +716,381 @@ function formularionr() {
 }
 
 function quadradodepearson(objeto) {
-  ajustepbpearson = (objeto.porcentopb * 100) / (100 - objeto.margem);
+  ajustepbpearson = (objeto.porcentopb * 100) / (100 - objeto.espaco);
   var pbalimento1 = 0;
-  var pbalimento2 = 0;
   pbalimento1 = objeto.alimentos[0].pb;
   pbalimento2 = objeto.alimentos[1].pb;
+  if (objeto.alimentos[2].pb) {
+    pbalimento3 = objeto.alimentos[2].pb;
+  } else {
+    objeto.alimentos[2] = 0;
+  }
 
-  pbmistura1 = pbalimento1 * objeto.nivel1;
-  pbmistura2 = pbalimento2 * objeto.nivel2;
+  var yms = 1;
+  var xms = 100 - objeto.nivel1 - objeto.espaco; //-yms
+  var partex = (pbalimento1 * (xms));
+  var esp = 0;
 
-  pbmistura = pbmistura1 + pbmistura2;
+  partex = (objeto.animal.pb - (pbalimento3 * objeto.nivel1)) - partex;
+  var partey = pbalimento2 - pbalimento1;
+
+  yms = (partex / partey); // partes de alimento 2 RESPOSTAAAAAAAAAAAAS
+  xms = (xms - yms); // partes de alimento 1
+  zms = (objeto.nivel1); // partes de alimento 3 - alternativo
+  esp = objeto.espaco;
 
   console.log(objeto);
-  alert(pbmistura);
+
+  var pbxms = xms * pbalimento1; //QUANTIDADE % DE PB INGREDIENTE 1
+  var pbyms = yms * pbalimento2; // QUANTIDADE % DE PB INGREDIENTE 2 
+  var pbzms = zms * pbalimento3; // QUANTIDADE % DE PB INGREDIENTE 3
+
+  console.log("partes de alimento 1 2 e 3 + espaço");
+  console.log(xms);
+  console.log(yms);
+  console.log(zms);
+  console.log(esp);
+
+  console.log("QUANTIDADE % DE PB dos alimentos 1 2 e 3");
+  console.log(pbxms);
+  console.log(pbyms);
+  console.log(pbzms);
+
+
+  var sodioexigencia = objeto.animal.sal * 100; //exigencia de sal do animal * 100 pois a dieta sai em 100% e não em 1
+  var sodioalimentos = (objeto.alimentos[0].na * xms) + (objeto.alimentos[1].na * yms) + (objeto.alimentos[2].na * zms); //SÓDIO JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var sodiodemanda = sodioexigencia - sodioalimentos;
+  var salracao = 0;
+  if (sodiodemanda > 0) {
+    salracao = ((sodiodemanda) / alimentos.sal.na);
+  }
+  console.log("QUANTIDADE DE SAL PARA COMPLETAR O SÓDIO QUE FALTA");
+  console.log(salracao); //RESPOSTA SODIOOOOOOOOOOOOOOOOOO
+
+  var fosforoexigencia = objeto.animal.fosforo * 100; //exigencia de fosforo do animal * 100 pois a dieta sai em 100% e não em 1
+  var fosforoalimentos = (objeto.alimentos[0].fosforo * xms) + (objeto.alimentos[1].fosforo * yms) + (objeto.alimentos[2].fosforo * zms); //FOSFORO JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var fosforodemanda = fosforoexigencia - fosforoalimentos;
+  var fosfororacao = 0;
+  if (fosforodemanda > 0) {
+    fosfororacao = ((fosforodemanda) / alimentos.fbicalcico.fosforo);
+  }
+
+  console.log("QUANTIDADE DE F. BICÁLCICO PARA COMPLETAR O FÓSFORO QUE FALTA");
+  console.log(fosfororacao); //RESPOSTA FOSFOROOOOOOOOOOO
+
+
+  var caexigencia = objeto.animal.ca * 100; //exigencia de cálcio do animal * 100 pois a dieta sai em 100% e não em 1
+  var caalimentos = (objeto.alimentos[0].ca * xms) + (objeto.alimentos[1].ca * yms) + (objeto.alimentos[2].ca * zms) + (fosfororacao * alimentos.fbicalcico.ca); //CÁLCIO JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var cademanda = caexigencia - caalimentos;
+  var caracao = 0;
+  if (cademanda > 0) {
+    caracao = ((cademanda) / alimentos.calcario.ca);
+  }
+
+  console.log("QUANTIDADE DE CALCÁRIO PARA COMPLETAR O CÁLCIO QUE FALTA");
+  console.log(caracao); //RESPOSTA CÁLCIO
+
+
+  var emexigencia = objeto.animal.em; //ENERGIA METABOLIZÁVEL DO ANIMAL
+  var emalimentos = ((objeto.alimentos[0].em * xms) / 100) + ((objeto.alimentos[1].em * yms) / 100) + ((objeto.alimentos[2].em * zms) / 100); //ENERGIA JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var emdemanda = emexigencia - emalimentos;
+  var emracao = 0;
+  if (emdemanda > 0) {
+    emracao = ((emdemanda) / alimentos.oleo.em * 100);
+  }
+
+  console.log("ENERGIA METABOLIZAVEL");
+  console.log(emexigencia);
+
+  console.log("ENERGIA METABOLIZÁVEL DISPONIVEL NO ALIMENTO 1 ");
+  console.log(objeto.alimentos[0].em);
+  console.log("ENERGIA METABOLIZÁVEL DISPONIVEL NO ALIMENTO 2 ");
+  console.log(objeto.alimentos[1].em);
+  console.log("ENERGIA METABOLIZÁVEL DISPONIVEL NO ALIMENTO 3 ");
+  console.log(objeto.alimentos[2].em);
+
+
+  console.log("ENERGIA METABOLIZÁVEL DISPONIVEL NO ALIMENTO 1 X QUANTIDADE DE PARTES DE ALIMENTO 1");
+  console.log(objeto.alimentos[0].em * xms);
+  console.log("ENERGIA METABOLIZÁVEL DISPONIVEL NO ALIMENTO 2 X QUANTIDADE DE PARTES DE ALIMENTO 2");
+  console.log(objeto.alimentos[1].em * yms);
+  console.log("ENERGIA METABOLIZÁVEL DISPONIVEL NO ALIMENTO 3 X QUANTIDADE DE PARTES DE ALIMENTO 3");
+  console.log(objeto.alimentos[2].em * zms);
+
+
+
+  console.log("ENERGIA METABOLIZÁVEL JÁ DISPONIVEL NOS 3 ALIMENTOS/INGREDIENTES");
+  console.log(emalimentos);
+  console.log("ENERGIA METABOLIZÁVEL QUE FALTA COMPLETAR");
+  console.log(emdemanda);
+
+  console.log("QUANTIDADE DE OLEO PARA COMPLETAR A ENERGIA METABOLIZÁVEL QUE FALTA");
+
+  console.log(emracao); //RESPOSTA ENERGIA METABOLIZÁVEL 
+
+
+
+  var lisexigencia = objeto.animal.lis; //EXIGENCIA DE LISINA DO ANIMAL
+  var lisalimentos = (objeto.alimentos[0].lis * xms) + (objeto.alimentos[1].lis * yms) + (objeto.alimentos[2].lis * zms); //LISINA JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var lisdemanda = lisexigencia - lisalimentos;
+  var lisracao = 0;
+  if (lisdemanda > 0) {
+    lisracao = ((lisdemanda) / alimentos.lisina.lis);
+  }
+
+  console.log("EXIGENCIA DE LISINA ");
+  console.log(lisexigencia);
+
+  console.log("LISINA DISPONIVEL NO ALIMENTO 1 ");
+  console.log(objeto.alimentos[0].lis);
+  console.log("LISINA DISPONIVEL NO ALIMENTO 2 ");
+  console.log(objeto.alimentos[1].lis);
+  console.log("LISINA DISPONIVEL NO ALIMENTO 3 ");
+  console.log(objeto.alimentos[2].lis);
+
+
+  console.log("LISINA DISPONIVEL NO ALIMENTO 1 X QUANTIDADE DE PARTES DE ALIMENTO 1");
+  console.log(objeto.alimentos[0].lis * xms);
+  console.log("LISINA DISPONIVEL NO ALIMENTO 2 X QUANTIDADE DE PARTES DE ALIMENTO 2");
+  console.log(objeto.alimentos[1].lis * yms);
+  console.log("LISINA DISPONIVEL NO ALIMENTO 3 X QUANTIDADE DE PARTES DE ALIMENTO 3");
+  console.log(objeto.alimentos[2].lis * zms);
+
+
+
+  console.log("LISINA JÁ DISPONIVEL NOS 3 ALIMENTOS/INGREDIENTES");
+  console.log(lisalimentos);
+  console.log("LISINA QUE FALTA COMPLETAR");
+  console.log(lisdemanda);
+
+  console.log("QUANTIDADE DE L-LisHCl PARA COMPLETAR A LISINA QUE FALTA");
+
+  console.log(lisracao); //RESPOSTA ENERGIA METABOLIZÁVEL 
+
+  var metcistexigencia = objeto.animal.metcist; //EXIGENCIA DE MET+CIST DO ANIMAL
+  var metcistalimentos = (objeto.alimentos[0].metcist * xms) + (objeto.alimentos[1].metcist * yms) + (objeto.alimentos[2].metcist * zms); // MET+CIST  JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var metcistdemanda = metcistexigencia - metcistalimentos;
+  var metcistracao = 0;
+  if (metcistdemanda > 0) {
+    metcistracao = ((metcistdemanda) / alimentos.metioninacistina.metcist);
+  }
+
+  console.log("EXIGENCIA DE  MET+CIST ");
+  console.log(metcistexigencia);
+
+  console.log(" MET+CIST  DISPONIVEL NO ALIMENTO 1 ");
+  console.log(objeto.alimentos[0].metcist);
+  console.log(" MET+CIST  DISPONIVEL NO ALIMENTO 2 ");
+  console.log(objeto.alimentos[1].metcist);
+  console.log(" MET+CIST  DISPONIVEL NO ALIMENTO 3 ");
+  console.log(objeto.alimentos[2].metcist);
+
+
+  console.log(" MET+CIST  DISPONIVEL NO ALIMENTO 1 X QUANTIDADE DE PARTES DE ALIMENTO 1");
+  console.log(objeto.alimentos[0].metcist * xms);
+  console.log(" MET+CIST  DISPONIVEL NO ALIMENTO 2 X QUANTIDADE DE PARTES DE ALIMENTO 2");
+  console.log(objeto.alimentos[1].metcist * yms);
+  console.log(" MET+CIST  DISPONIVEL NO ALIMENTO 3 X QUANTIDADE DE PARTES DE ALIMENTO 3");
+  console.log(objeto.alimentos[2].metcist * zms);
+
+
+
+  console.log(" MET+CIST  JÁ DISPONIVEL NOS 3 ALIMENTOS/INGREDIENTES");
+  console.log(metcistalimentos);
+  console.log(" MET+CIST  QUE FALTA COMPLETAR");
+  console.log(metcistdemanda);
+
+  console.log("QUANTIDADE DE DL-Met PARA COMPLETAR A MET+CIST QUE FALTA");
+
+  console.log(metcistracao); //RESPOSTA MET+CIST  EM KG
+
+  var metexigencia = objeto.animal.met; //EXIGENCIA DE MET DO ANIMAL
+  var metalimentos = (objeto.alimentos[0].met * xms) + (objeto.alimentos[1].met * yms) + (objeto.alimentos[2].met * zms) + (metcistracao * alimentos.metioninacistina.met); // MET  JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var metdemanda = metexigencia - metalimentos;
+  var metracao = 0;
+  if (metdemanda > 0) {
+    metracao = ((metdemanda) / alimentos.metioninacistina.met);
+  } 
+
+  console.log("EXIGENCIA DE MET ");
+  console.log(metexigencia);
+
+  console.log(" MET DISPONIVEL NO ALIMENTO 1 ");
+  console.log(objeto.alimentos[0].met);
+  console.log(" MET DISPONIVEL NO ALIMENTO 2 ");
+  console.log(objeto.alimentos[1].met);
+  console.log(" MET DISPONIVEL NO ALIMENTO 3 ");
+  console.log(objeto.alimentos[2].met);
+
+
+  console.log(" MET DISPONIVEL NO ALIMENTO 1 X QUANTIDADE DE PARTES DE ALIMENTO 1");
+  console.log(objeto.alimentos[0].met * xms);
+  console.log(" MET DISPONIVEL NO ALIMENTO 2 X QUANTIDADE DE PARTES DE ALIMENTO 2");
+  console.log(objeto.alimentos[1].met * yms);
+  console.log(" MET DISPONIVEL NO ALIMENTO 3 X QUANTIDADE DE PARTES DE ALIMENTO 3");
+  console.log(objeto.alimentos[2].met * zms);
+
+
+
+  console.log(" MET JÁ DISPONIVEL NOS 3 ALIMENTOS/INGREDIENTES");
+  console.log(metalimentos);
+  console.log(" MET QUE FALTA COMPLETAR");
+  console.log(metdemanda);
+
+  console.log("QUANTIDADE DE DL-Met PARA COMPLETAR A MET QUE FALTA");
+
+  console.log(metracao); //RESPOSTA MET  
+
+
+
+
+
+  var tripexigencia = objeto.animal.trip; //EXIGENCIA DE TRIP DO ANIMAL
+  var tripalimentos = (objeto.alimentos[0].trip * xms) + (objeto.alimentos[1].trip * yms) + (objeto.alimentos[2].trip * zms); // Treonina JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var tripdemanda = tripexigencia - tripalimentos;
+  var tripracao = 0;
+  if (tripdemanda > 0) {
+    tripracao = ((tripdemanda) / alimentos.triptofano.trip);
+  } 
+
+  console.log("EXIGENCIA DE TRIP ");
+  console.log(tripexigencia);
+
+  console.log("TRIP NO ALIMENTO 1 ");
+  console.log(objeto.alimentos[0].trip);
+  console.log("TRIP NO ALIMENTO 2 ");
+  console.log(objeto.alimentos[1].trip);
+  console.log("TRIP NO ALIMENTO 3 ");
+  console.log(objeto.alimentos[2].trip);
+
+
+  console.log(" TRIP DISPONIVEL NO ALIMENTO 1 X QUANTIDADE DE PARTES DE ALIMENTO 1");
+  console.log(objeto.alimentos[0].trip * xms);
+  console.log(" TRIP DISPONIVEL NO ALIMENTO 2 X QUANTIDADE DE PARTES DE ALIMENTO 2");
+  console.log(objeto.alimentos[1].trip * yms);
+  console.log(" TRIP DISPONIVEL NO ALIMENTO 3 X QUANTIDADE DE PARTES DE ALIMENTO 3");
+  console.log(objeto.alimentos[2].trip * zms);
+
+
+
+  console.log(" TRIP JÁ DISPONIVEL NOS 3 ALIMENTOS/INGREDIENTES");
+  console.log(tripalimentos);
+  console.log(" TRIP QUE FALTA COMPLETAR");
+  console.log(tripdemanda);
+
+  console.log("QUANTIDADE DE L-Trip PARA COMPLETAR A TRIP QUE FALTA");
+
+  console.log(tripracao); //RESPOSTA TRIP
+
+  
+  var treexigencia = objeto.animal.tre; //EXIGENCIA DE TREO DO ANIMAL
+  var trealimentos = (objeto.alimentos[0].tre * xms) + (objeto.alimentos[1].tre * yms) + (objeto.alimentos[2].tre * zms); // Treonina JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var tredemanda = treexigencia - trealimentos;
+  var treracao = 0;
+  if (tredemanda > 0) {
+    treracao = ((tredemanda) / alimentos.treonina.tre);
+  } 
+
+  console.log("EXIGENCIA DE Treonina Digestível ");
+  console.log(treexigencia);
+
+  console.log(" Treonina DISPONIVEL NO ALIMENTO 1 ");
+  console.log(objeto.alimentos[0].tre);
+  console.log(" Treonina DISPONIVEL NO ALIMENTO 2 ");
+  console.log(objeto.alimentos[1].tre);
+  console.log(" Treonina DISPONIVEL NO ALIMENTO 3 ");
+  console.log(objeto.alimentos[2].tre);
+
+
+  console.log(" Treonina DISPONIVEL NO ALIMENTO 1 X QUANTIDADE DE PARTES DE ALIMENTO 1");
+  console.log(objeto.alimentos[0].tre * xms);
+  console.log(" Treonina DISPONIVEL NO ALIMENTO 2 X QUANTIDADE DE PARTES DE ALIMENTO 2");
+  console.log(objeto.alimentos[1].tre * yms);
+  console.log(" Treonina DISPONIVEL NO ALIMENTO 3 X QUANTIDADE DE PARTES DE ALIMENTO 3");
+  console.log(objeto.alimentos[2].tre * zms);
+
+
+
+  console.log(" Treonina JÁ DISPONIVEL NOS 3 ALIMENTOS/INGREDIENTES");
+  console.log(trealimentos);
+  console.log(" Treonina QUE FALTA COMPLETAR");
+  console.log(tredemanda);
+
+  console.log("QUANTIDADE DE Treonina Digestível PARA COMPLETAR A Treonina QUE FALTA");
+
+  console.log(treracao); //RESPOSTA TREO  
+
+
+
+
+  
+  var isolexigencia = objeto.animal.isol; //EXIGENCIA DE ISOLEUCINA DO ANIMAL
+  var isolalimentos = (objeto.alimentos[0].isol * xms) + (objeto.alimentos[1].isol * yms) + (objeto.alimentos[2].isol * zms); // ISOLEUCINA JÁ DISPONIVEL NOS ALIMENTOS/INGREDIENTES
+  var isoldemanda = isolexigencia - isolalimentos;
+  var isolracao = 0;
+  if (isoldemanda > 0) {
+    isolracao = ((isoldemanda) / alimentos.isoleucina.isol);
+  } 
+
+  console.log("EXIGENCIA DE ISOLEUCINA ");
+  console.log(isolexigencia);
+
+  console.log(" ISOLEUCINA DISPONIVEL NO ALIMENTO 1 ");
+  console.log(objeto.alimentos[0].isol);
+  console.log(" ISOLEUCINA DISPONIVEL NO ALIMENTO 2 ");
+  console.log(objeto.alimentos[1].isol);
+  console.log(" ISOLEUCINA DISPONIVEL NO ALIMENTO 3 ");
+  console.log(objeto.alimentos[2].isol);
+
+
+  console.log(" ISOLEUCINA DISPONIVEL NO ALIMENTO 1 X QUANTIDADE DE PARTES DE ALIMENTO 1");
+  console.log(objeto.alimentos[0].isol * xms);
+  console.log(" ISOLEUCINA DISPONIVEL NO ALIMENTO 2 X QUANTIDADE DE PARTES DE ALIMENTO 2");
+  console.log(objeto.alimentos[1].isol * yms);
+  console.log(" ISOLEUCINA DISPONIVEL NO ALIMENTO 3 X QUANTIDADE DE PARTES DE ALIMENTO 3");
+  console.log(objeto.alimentos[2].isol * zms);
+
+
+
+  console.log(" ISOLEUCINA JÁ DISPONIVEL NOS 3 ALIMENTOS/INGREDIENTES");
+  console.log(isolalimentos);
+  console.log(" ISOLEUCINA QUE FALTA COMPLETAR");
+  console.log(isoldemanda);
+
+  console.log("QUANTIDADE DE L-Isol. PARA COMPLETAR A ISOLEUCINA QUE FALTA");
+
+  console.log(isolracao); //RESPOSTA ISOLEUCINA  
+
+
+
+}
+
+
+function comboboxnivelpratico(elemento, alimento) {
+  var quemchamou = localStorage.getItem('tipoanimal');
+  var tipoanimal = exigencias[quemchamou].tipo;
+  const alimentosselect = document.getElementById(elemento);
+  var nivelpratico = [];
+
+  for (i = 5; i >= 1; i--) {
+    alimentosselect.options[i] = null;
+  }
+  if (alimento != 0) {
+    if (tipoanimal == "ave") {
+      var nivel = ((alimentos[alimento].nivelpraticoave) * 100 / 5);
+    } else {
+      var nivel = ((alimentos[alimento].nivelpraticosuino) * 100 / 5);
+    }
+
+    nivelpratico[1] = nivel;
+
+    for (var count = 2; count < 6; count++) {
+      nivelpratico[count] = nivel + nivelpratico[count - 1];
+    }
+    for (var count = 1; count < 6; count++) {
+      option = new Option(nivelpratico[count].toFixed(2));
+      alimentosselect.options[alimentosselect.options.length] = option;
+    };
+
+  }
 }
