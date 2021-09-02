@@ -208,7 +208,7 @@ function montaString(retorno, bound) {
     if (bound > 2 && bound < 6) {
       tolerancia = tolerancia + 0.0166666666666666666666666666666;
     } else {
-      window.location.href = "./repick.html";
+     // window.location.href = "./repick.html";
       return 0;
     }
   }
